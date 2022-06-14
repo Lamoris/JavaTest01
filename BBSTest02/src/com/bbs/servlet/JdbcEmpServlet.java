@@ -16,7 +16,7 @@ public class JdbcEmpServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
-		
+
 		JdbcEmpService svc = new JdbcEmpService(request, response);
 		String view = svc.process();
 		if(view != null) {

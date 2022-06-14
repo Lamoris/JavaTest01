@@ -31,11 +31,27 @@
 			location.href='JdbcEmp?cmd=edit&empno='+${emp.empno};
 	}
 	
-	function deleted(){
+	function deleted(empno){
 		if(!confirm('Double Check for Delete?'))
 			return;
-		else
-			location.href='JdbcEmp?cmd=detail&empno='+${emp.empno};
+		var obj = {};
+		obj.cmd = 'delete';
+		obj.empno = empno;
+		$.ajax({
+			url: 'JdbcEmp',
+			method: 'post',
+			cache: false,
+			data: obj,
+			dataType: 'json',
+			success: function(res){
+				alert(res.deleted ? 'Delete Complete' : 'Delete Fail');
+				if(res.deleted)
+					location.href='JdbcEmp?cmd=list';
+			},
+			error: function(xhr, status, err){
+				alert(err);
+			}
+		});
 	}
 </script>
 </head>
@@ -81,7 +97,7 @@
 <footer>
 	[<a href="javascript:edit();">Employee Edit</a>] 
 	[<a href="JdbcEmp?cmd=list">Employee List</a>] 
-	[<a href="javascript:deleted();">Delete Data</a>]
+	[<a href="javascript:deleted(${emp.empno});">Delete Data</a>]
 </footer>
 </main>
 </body>
